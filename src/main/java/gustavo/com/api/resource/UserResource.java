@@ -1,21 +1,28 @@
 package gustavo.com.api.resource;
 
-import gustavo.com.api.domain.User;
+import gustavo.com.api.domain.dto.UserDTO;
 import gustavo.com.api.services.UserService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(value = "/user")
 public class UserResource {
 
     @Autowired
+    ModelMapper mapper;
+
+    @Autowired
     private UserService service;
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<User> findById(@PathVariable Integer id) {
-        return ResponseEntity.ok().body(service.findById(id));
+    public ResponseEntity<UserDTO> findById(@PathVariable Integer id) {
+        return ResponseEntity.ok().body(mapper.map(service.findById(id), UserDTO.class));
     }
 
 }
