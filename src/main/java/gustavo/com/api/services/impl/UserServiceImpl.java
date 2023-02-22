@@ -4,6 +4,7 @@ import gustavo.com.api.domain.User;
 import gustavo.com.api.domain.dto.UserDTO;
 import gustavo.com.api.repositories.UserRepository;
 import gustavo.com.api.services.UserService;
+import gustavo.com.api.services.exceptions.DataIntegratyVaiolationException;
 import gustavo.com.api.services.exceptions.ObjectNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +34,15 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User create(UserDTO obj) {
-        return  repository.save(mapper.map(obj, User.class));
+        findByEmail(obj);
+        return repository.save(mapper.map(obj, User.class));
+    }
+
+    private void findByEmail(UserDTO obj) {
+        Optional<User> user = repository.findByEmail(obj.getEmail());
+        if (user.isPresent()) {
+            throw new DataIntegratyVaiolationException("E-mail ja cadastrado no sistema");
+        }
     }
 
 }
