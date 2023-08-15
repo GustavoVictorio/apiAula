@@ -3,7 +3,7 @@ package gustavo.com.api.services.impl;
 import gustavo.com.api.domain.User;
 import gustavo.com.api.domain.dto.UserDTO;
 import gustavo.com.api.repositories.UserRepository;
-import gustavo.com.api.services.exceptions.DataIntegratyVaiolationException;
+import gustavo.com.api.services.exceptions.DataIntegrityViolationException;
 import gustavo.com.api.services.exceptions.ObjectNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -110,7 +110,7 @@ class UserServiceImplTest {
             optionalUser.get().setId(2);
             service.create(userDTO);
         } catch (Exception e) {
-            assertEquals(DataIntegratyVaiolationException.class, e.getClass());
+            assertEquals(DataIntegrityViolationException.class, e.getClass());
             assertEquals("E-mail ja cadastrado no sistema", e.getMessage());
         }
     }
@@ -137,7 +137,7 @@ class UserServiceImplTest {
             optionalUser.get().setId(2);
             service.update(userDTO);
         } catch (Exception e) {
-            assertEquals(DataIntegratyVaiolationException.class, e.getClass());
+            assertEquals(DataIntegrityViolationException.class, e.getClass());
             assertEquals("E-mail ja cadastrado no sistema", e.getMessage());
         }
     }
